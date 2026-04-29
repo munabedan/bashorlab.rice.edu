@@ -1,11 +1,14 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Home | Bashor Lab">
+	<main class="flex flex-grow flex-col items-center justify-center min-h-[60vh] text-center">
+		<div class="border-4 border-double border-zinc-800 p-12 max-w-2xl">
+			<h2 class="text-xl mb-4">SYSTEMS BIOLOGY</h2>
+			<p class="text-zinc-500 leading-loose text-[10px]">
+				We build synthetic gene circuits to understand and engineer cellular decision making.
+			</p>
+		</div>
+	</main>
 </Layout>

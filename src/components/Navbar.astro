@@ -1,0 +1,123 @@
+---
+import hamburgerIcon from "../assets/nav/hambuger_menu.png";
+import dropdownBg from "../assets/nav/dropdown_background.png";
+import instaIcon from "../assets/nav/insta_icon.png";
+import githubIcon from "../assets/nav/github_cat.png";
+import xIcon from "../assets/nav/x_logo.png";
+
+// Define your page and social links here
+const navLinks = [
+  { name: "HOME", url: "/" },
+  { name: "RESEARCH", url: "/research" },
+  { name: "PEOPLE", url: "/people" },
+  { name: "PUBLICATIONS", url: "/publications" },
+];
+
+const socialLinks = [
+  { name: "IG", url: "https://instagram.com/...", icon: instaIcon.src },
+  { name: "GH", url: "https://github.com/...", icon: githubIcon.src },
+  { name: "X", url: "https://x.com/...", icon: xIcon.src },
+];
+---
+
+<nav class="relative border-b-4 border-zinc-900 bg-black px-4 py-6 md:py-8 md:px-10 font-['Press_Start_2P']">
+  <div class="mx-auto flex max-w-7xl items-center justify-between">
+    
+    <div class="flex items-center gap-2 md:gap-3 overflow-hidden">
+      <h1
+        id="typewriter"
+        class="text-[10px] sm:text-[14px] md:text-2xl lg:text-3xl text-white leading-none tracking-tight md:tracking-[0.1em]"
+      >
+      </h1>
+      <div id="cursor" class="h-3 w-2 sm:h-4 sm:w-3 md:h-8 md:w-6 bg-white shrink-0"></div>
+    </div>
+
+    <div class="relative flex items-center gap-3 sm:gap-6 md:gap-10 shrink-0">
+      
+      <div class="hidden items-center gap-4 md:flex">
+        {socialLinks.map((social) => (
+          <a href={social.url} class="transition-transform hover:-translate-y-1" target="_blank" rel="noopener noreferrer">
+            <img src={social.icon} alt={social.name} class="w-8 lg:w-12" />
+          </a>
+        ))}
+      </div>
+
+      <button
+        id="menu-toggle"
+        class="relative z-50 transition-opacity active:opacity-50"
+      >
+        <img src={hamburgerIcon.src} alt="Menu" class="w-10 sm:w-12 md:w-16 lg:w-20" />
+      </button>
+
+      <div
+        id="mobile-menu"
+        class="hidden absolute right-0 top-[120%] z-[100] w-[240px] sm:w-[280px] p-8 sm:p-10 shadow-2xl"
+        style={`background-image: url(${dropdownBg.src}); background-size: 100% 100%; image-rendering: pixelated;`}
+      >
+        <ul class="flex flex-col gap-6 sm:gap-8 text-center text-[12px] sm:text-[16px] md:text-[18px] text-black">
+          {navLinks.map((link) => (
+            <li>
+              <a href={link.url} class="hover:underline decoration-2 md:decoration-4">
+                {link.name}
+              </a>
+            </li>
+          ))}
+          
+          <li class="flex md:hidden items-center justify-center gap-4 pt-4 border-t border-black/10">
+            {socialLinks.map((social) => (
+              <a href={social.url} target="_blank" rel="noopener noreferrer">
+                <img src={social.icon} alt={social.name} class="w-6 h-6 opacity-80" />
+              </a>
+            ))}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const text = "WELCOME TO THE BASHOR LAB";
+  const container = document.getElementById("typewriter");
+  let charIndex = 0;
+
+  function typeEffect() {
+    if (container && charIndex < text.length) {
+      container.textContent += text.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeEffect, 80);
+    }
+  }
+
+  const menuBtn = document.getElementById("menu-toggle");
+  const menuDropdown = document.getElementById("mobile-menu");
+
+  menuBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    menuDropdown?.classList.toggle("hidden");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!menuDropdown?.contains(e.target as Node)) {
+      menuDropdown?.classList.add("hidden");
+    }
+  });
+
+  window.addEventListener("DOMContentLoaded", typeEffect);
+</script>
+
+<style>
+  #cursor { animation: blink 0.8s step-end infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  
+  #typewriter { white-space: nowrap; }
+  
+  @media (max-width: 400px) {
+    #typewriter { white-space: normal; }
+  }
+
+  img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+</style>
