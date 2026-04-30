@@ -1,0 +1,42 @@
+[
+  {
+  "id": "1",
+  "title": "Using Engineered Scaffold Interactions to Reshape MAP Kinase Pathway Signaling Dynamics",
+  "authors": "Caleb J. Bashor, Noah C. Helman, Shude Yan, Wendell A. Lim",
+  "journal": "Science",
+  "year": "2008",
+  "pdf_file": "Bashor_Science_2008.pdf"
+},
+{
+  "id": "2",
+  "title": "Mammalian signaling circuits from bacterial parts",
+  "authors": "Xiaoyu Yang, John Her, Caleb J. Bashor",
+  "journal": "Nature Reviews Molecular Cell Biology (News & Views)",
+  "year": "2019",
+  "pdf_file": "Yang_Nat-Chem-Bio_2019.pdf"
+},
+{
+  "id": "3",
+  "title": "Engineering the next generation of cell-based therapeutics",
+  "authors": "Caleb J. Bashor, Isaac B. Hilton, Hozefa Bandukwala, Devyn M. Smith, Omid Veiseh",
+  "journal": "Nature Reviews Drug Discovery",
+  "year": "2022",
+  "pdf_file": "Bashor_et_al-2022-Nature_Reviews_Drug_Discovery.pdf"
+},
+{
+  "id": "4",
+  "title": "pYtags enable spatiotemporal measurements of receptor tyrosine kinase signaling in living cells",
+  "authors": "Payam E. Farahani, Xiaoyu Yang, Emily V. Mesev, Kaylan A. Fomby, Ellen H. Brumbaugh-Reed, Caleb J. Bashor, Celeste M. Nelson, Jared E. Toettcher",
+  "journal": "eLife",
+  "year": "2023",
+  "pdf_file": "eLife_2023.pdf"
+},
+{
+  "id": "5",
+  "title": "Rewiring Cells: Synthetic Biology as a Tool to Interrogate the Organizational Principles of Living Systems",
+  "authors": "Caleb J. Bashor, Andrew A. Horwitz, Sergio G. Peisajovich, Wendell A. Lim",
+  "journal": "Annual Review of Biophysics",
+  "year": "2010",
+  "pdf_file": "Bashor_AnnuRevBioPhys_2010.pdf"
+}
+]

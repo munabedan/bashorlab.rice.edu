@@ -1,17 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro'; // Import the hero component
+import About from '../components/About.astro';
+import Research from '../components/Research.astro';
+import Publications from '../components/Publications.astro';
 ---
 
 <Layout title="Home | Bashor Lab">
-    <Hero />
+  <Hero />
 
-    <main class="flex flex-grow flex-col items-center justify-center min-h-[60vh] text-center bg-black relative z-50">
-        <div class="border-4 border-double border-zinc-800 p-12 max-w-2xl bg-black">
-            <h2 class="text-xl mb-4">SYSTEMS BIOLOGY</h2>
-            <p class="text-zinc-500 leading-loose text-[10px]">
-                We build synthetic gene circuits to understand and engineer cellular decision making.
-            </p>
-        </div>
-    </main>
+  <section id="about">
+    <About />
+  </section>
+
+  <section id="research">
+    <Research />
+  </section>
+
+  <section id="publications">
+    <Publications />
+  </section>
 </Layout>

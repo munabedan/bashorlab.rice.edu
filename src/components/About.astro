@@ -1,102 +1,53 @@
 ---
-import { Image } from 'astro:assets';
-import backgroundGif from '../assets/hero/background-blue.gif';
+import { Image } from "astro:assets";
+import backgroundGif from "../assets/hero/background-blue.gif";
 
 interface Props {
-  title?: string;
-  description?: string;
+    title?: string;
+    description?: string;
 }
 
-const { 
-  title = "WHAT WE DO:", 
-  description = "The goal of our work is to use synthetic regulatory circuits to reprogram the behavior of human cells" 
+const {
+    title = "The Bashor Lab (What we do)",
+    description = "We use synthetic biology approaches to design, build, and test artificial regulatory programs in human cells. This not only provides insight into the design logic of natural regulation, but also allows us to predictively alter cellular phenotype to create powerful cell-based biotechnologies.",
 } = Astro.props;
+
+// Logic to split by full stops and clean up empty strings/whitespace
+const sentences = description
+    .split('.')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+
+const heavyGlow = "text-white uppercase leading-tight md:leading-relaxed [text-shadow:0_0_5px_#94e2d5,0_0_10px_rgba(148,226,213,0.8)] md:[text-shadow:0_0_5px_#94e2d5,0_0_10px_#94e2d5,0_0_20px_rgba(148,226,213,0.8),0_0_40px_rgba(148,226,213,0.6),0_0_60px_rgba(148,226,213,0.4)]";
 ---
 
-<section class="about-section">
-  <div class="bg-container">
-    <Image src={backgroundGif} alt="" fetchpriority="high" />
-    <!-- Visual reference requested by user -->
-    <img src="/image_1bcba1.jpg" alt="" class="reference-layer" />
-  </div>
-  
-  <div class="content-container">
-    <h2 class="heavy-glow title">{title}</h2>
-    <p class="heavy-glow description">{description}</p>
-  </div>
-</section>
+<div class="relative w-full min-h-[100svh] flex items-center justify-center p-6 md:p-12 overflow-hidden bg-black">
+    
+    <!-- Background Container -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 z-10 pointer-events-none bg-[radial-gradient(circle,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.9)_100%)]"></div>
+        
+        <Image 
+            src={backgroundGif} 
+            alt="" 
+            fetchpriority="high" 
+            class="w-full h-full object-cover [image-rendering:pixelated] opacity-40 md:opacity-50"
+        />
+    </div>
 
-<style>
-  .about-section {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    overflow: hidden;
-    background-color: #000;
-  }
-
-  .bg-container {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
-  .bg-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    image-rendering: pixelated;
-    opacity: 0.5;
-  }
-
-  /* Hidden layer to keep the image_1bcba1.jpg context if needed for blending */
-  .reference-layer {
-    display: none;
-  }
-
-  .content-container {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px; /* Increased width for larger text */
-    text-align: left;
-  }
-
-  .heavy-glow {
-    color: white;
-    text-transform: uppercase;
-    /* Layered shadows for "Super Glow" */
-    text-shadow: 
-      0 0 5px #94e2d5,
-      0 0 10px #94e2d5,
-      0 0 20px rgba(148, 226, 213, 0.8),
-      0 0 40px rgba(148, 226, 213, 0.6),
-      0 0 60px rgba(148, 226, 213, 0.4);
-    line-height: 1.5;
-  }
-
-  .title {
-    font-size: 3rem; /* Significant size increase */
-    margin-bottom: 2.5rem;
-    letter-spacing: 4px;
-  }
-
-  .description {
-    font-size: 1.8rem; /* Significant size increase */
-    max-width: 1000px;
-  }
-
-  /* Adjustments for smaller screens to keep the "Large" feel without breaking */
-  @media (max-width: 1024px) {
-    .title { font-size: 2rem; }
-    .description { font-size: 1.2rem; }
-  }
-
-  @media (max-width: 640px) {
-    .title { font-size: 1.5rem; }
-    .description { font-size: 0.9rem; }
-  }
-</style>
+    <!-- Content -->
+    <div class="relative z-20 w-full max-w-[1100px] text-center">
+        <h2 class={`${heavyGlow} text-1xl sm:text-3xl md:text-4xl lg:text-4xl mb-8 md:mb-12 tracking-[2px] md:tracking-[4px]`}>
+            {title}
+        </h2>
+        
+        <!-- Paragraph Container: adds vertical spacing between the split paragraphs -->
+        <div class="flex flex-col space-y-6 md:space-y-10">
+            {sentences.map((sentence) => (
+                <p class={`${heavyGlow} text-sm sm:text-base md:text-lg lg:text-[1.8rem] max-w-[1000px] mx-auto normal-case md:uppercase`}>
+                    {sentence}.
+                </p>
+            ))}
+        </div>
+    </div>
+</div>

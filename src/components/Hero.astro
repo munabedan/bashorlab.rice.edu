@@ -3,18 +3,9 @@ import layer1 from "../assets/hero/lab_scene_layer_1.png";
 import layer2 from "../assets/hero/lab_scene_layer_2.png";
 import layer3 from "../assets/hero/lab_scene_layer_3.png";
 import layer4 from "../assets/hero/lab_scene_layer_4.png";
-import blueBg from "../assets/hero/background-blue.gif";
 ---
 
-<section class="relative h-[400vh] bg-[#1a1a1a]" id="parallax-outer">
-  <!-- Loader Overlay -->
-  <div
-    id="scroll-loader"
-    class="fixed inset-0 z-[9998] pointer-events-none opacity-0"
-    style={`background-image: url(${blueBg.src}); background-size: cover; background-position: center;`}
-  >
-  </div>
-
+<section class="relative h-[200vh]" id="parallax-outer">
   <div class="sticky top-0 h-screen w-full overflow-hidden">
     <!-- Parallax Scene -->
     <div class="absolute inset-0 w-full h-full" id="parallax-scene">
@@ -37,7 +28,6 @@ import blueBg from "../assets/hero/background-blue.gif";
       id="hero-arrow"
       class="absolute bottom-40 left-1/2 -translate-x-1/2 z-50 animate-bounce text-white"
     >
-      <!-- Bigger Chevron Down Icon -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-16 w-16"
@@ -53,16 +43,12 @@ import blueBg from "../assets/hero/background-blue.gif";
   </div>
 </section>
 
-<!-- Content below to demonstrate the loader covering everything -->
-<div class="relative z-[1] h-screen bg-black"></div>
-
 <script>
   const outer = document.getElementById("parallax-outer");
   const layers = document.querySelectorAll(
     ".parallax-layer",
   ) as NodeListOf<HTMLElement>;
   const arrow = document.getElementById("hero-arrow");
-  const loader = document.getElementById("scroll-loader");
 
   let requestPos = 0;
   let currentPos = 0;
@@ -80,25 +66,13 @@ import blueBg from "../assets/hero/background-blue.gif";
       layer.style.transform = `translate3d(0, ${yPos}px, 0)`;
     });
 
-    // Loader Logic
-    if (loader) {
-      const start = 200;
-      const end = 1500;
-      let progress = (currentPos - start) / (end - start);
-      let finalOpacity = Math.max(0, Math.min(progress, 1));
-      loader.style.opacity = finalOpacity.toString();
-      loader.style.pointerEvents = finalOpacity > 0.9 ? "auto" : "none";
-    }
-
     // Arrow Fade
     if (arrow) {
       const rect = outer.getBoundingClientRect();
       if (rect.top === 0) {
-        // User has not scrolled yet → arrow fully visible
         arrow.style.opacity = "1";
       } else {
-        // As soon as scroll starts, fade out quickly
-        const fadeDistance = 200; // adjust to control fade speed
+        const fadeDistance = 200; 
         const arrowOpacity = Math.max(1 - currentPos / fadeDistance, 0);
         arrow.style.opacity = arrowOpacity.toString();
       }
@@ -126,12 +100,6 @@ import blueBg from "../assets/hero/background-blue.gif";
   .parallax-layer {
     will-change: transform;
     image-rendering: pixelated;
-  }
-
-  #scroll-loader {
-    will-change: opacity;
-    image-rendering: pixelated;
-    background-color: #1a1a1a;
   }
 
   img {

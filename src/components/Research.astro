@@ -1,0 +1,81 @@
+---
+import backgroundGif from '../assets/hero/background-blue.gif';
+
+const researchData = {
+  mainTitle: "OUR RESEARCH",
+  sections: [
+  {
+    "heading": "Synthetic Regulatory Circuits",
+    "content": "Our work explores the fundamentals of gene expression control in mammalian cells. By leveraging multi-scale regulatory control, we can engineer stable, precise control over complex multi-gene expression programs that can both report on and reprogram cellular function."
+  },
+  {
+    "heading": "Synthetic Signaling Networks",
+    "content": "We engineer protein circuits that sense, compute, and respond to extracellular inputs. These circuits serve as model systems for understanding the molecular and biophysical determinants of signal transduction, and can be used to reshape how a cell interacts with its environment."
+  },
+  {
+    "heading": "Data-driven Genetic Design",
+    "content": "We are creating high-throughput experimental pipelines that enable building and testing of synthetic circuits at an unprecedented scale. The data we generate can be used to train AI algorithms that map genetic design space, dramatically increasing the pace of circuit engineering."
+  },
+  {
+    "heading": "Engineering Cell-Based Therapeutics",
+    "content": "Our ultimate goal is to use our work to create safer, more effective cell-based therapies for indications spanning inflammatory disorders, trauma, and cancer. We work closely with translational and clinical researchers to ensure our designs meet real-world constraints and move efficiently toward therapeutic impact."
+  }
+]
+
+};
+---
+
+<div
+  class="relative w-full min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center pt-20 md:pt-32 pb-24 md:pb-48 px-6 md:px-10 box-border overflow-x-hidden"
+  style={`background-image: url(${backgroundGif.src});`}
+>
+  <div class="absolute inset-0 z-10 bg-vignette pointer-events-none"></div>
+
+  <div class="relative z-20 w-full max-w-5xl mx-auto">
+  <header class="w-full mb-16 md:mb-32 text-center">
+    <!-- Font size reduced on mobile (text-xl), scaling adjusted for mobile -->
+    <h1 class="text-white text-xl md:text-4xl tracking-[0.1em] uppercase transform scale-y-110 md:scale-y-120">
+      {researchData.mainTitle}
+    </h1>
+  </header>
+
+    <!-- Gap reduced from 40 to 20 on mobile -->
+    <div class="flex flex-col gap-20 md:gap-40">
+      {researchData.sections.map((item) => (
+        <article class="text-center mx-auto max-w-4xl">
+          <!-- Heading size and margin reduced for mobile -->
+          <h2 class="text-white text-lg md:text-3xl mb-8 md:mb-16 tracking-[0.1em] uppercase transform scale-y-100 origin-center">
+            {item.heading}
+          </h2>
+          
+          <p 
+            class="text-white text-xs sm:text-sm md:text-[1.15rem] leading-loose md:leading-[3] text-center transform scale-y-105 md:scale-y-110 origin-center"
+            set:html={item.content}
+          />
+        </article>
+      ))}
+    </div>
+  </div>
+</>
+
+<style>
+  .bg-vignette {
+    background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
+  }
+
+  article p :global(strong) {
+    color: #fff;
+    font-weight: normal;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+  }
+
+  article p {
+    word-spacing: 0.1em; /* Reduced slightly for mobile readability */
+  }
+  
+  @media (min-width: 768px) {
+    article p {
+      word-spacing: 0.2em;
+    }
+  }
+</style>
