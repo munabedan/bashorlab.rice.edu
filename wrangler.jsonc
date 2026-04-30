@@ -1,0 +1,5 @@
+{
+  "name": "bashorlab",
+  "main": "dist/_worker.js/index.js",
+  "compatibility_date": "2026-04-30"
+}
