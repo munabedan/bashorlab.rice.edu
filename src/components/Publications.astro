@@ -43,7 +43,7 @@ import pdf_icon from "../assets/publications/PDF.png";
              * Because these files are in 'public/pdfs/', the browser
              * can find them at the root path '/pdfs/'.
              */
-            const pdfUrl = `/pdfs/${pub.data.pdf_file}`;
+            
 
             return (
               <div class="flex flex-row items-start justify-between group gap-8">
@@ -59,7 +59,7 @@ import pdf_icon from "../assets/publications/PDF.png";
 
                 <div class="flex-shrink-0">
                   <a
-                    href={pdfUrl}
+                    href={pub.data.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     class="block transform transition-transform hover:scale-110 active:scale-95 cursor-pointer"

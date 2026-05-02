@@ -5,7 +5,7 @@
   "authors": "Caleb J. Bashor, Noah C. Helman, Shude Yan, Wendell A. Lim",
   "journal": "Science",
   "year": "2008",
-  "pdf_file": "Bashor_Science_2008.pdf"
+  "url": "/pdfs/Bashor_Science_2008.pdf"
 },
 {
   "id": "2",
@@ -13,7 +13,7 @@
   "authors": "Xiaoyu Yang, John Her, Caleb J. Bashor",
   "journal": "Nature Reviews Molecular Cell Biology (News & Views)",
   "year": "2019",
-  "pdf_file": "Yang_Nat-Chem-Bio_2019.pdf"
+  "url": "/pdfs/Yang_Nat-Chem-Bio_2019.pdf"
 },
 {
   "id": "3",
@@ -21,7 +21,7 @@
   "authors": "Caleb J. Bashor, Isaac B. Hilton, Hozefa Bandukwala, Devyn M. Smith, Omid Veiseh",
   "journal": "Nature Reviews Drug Discovery",
   "year": "2022",
-  "pdf_file": "Bashor_et_al-2022-Nature_Reviews_Drug_Discovery.pdf"
+  "url": "/pdfs/Bashor_et_al-2022-Nature_Reviews_Drug_Discovery.pdf"
 },
 {
   "id": "4",
@@ -29,7 +29,7 @@
   "authors": "Payam E. Farahani, Xiaoyu Yang, Emily V. Mesev, Kaylan A. Fomby, Ellen H. Brumbaugh-Reed, Caleb J. Bashor, Celeste M. Nelson, Jared E. Toettcher",
   "journal": "eLife",
   "year": "2023",
-  "pdf_file": "eLife_2023.pdf"
+  "url": "/pdfs/eLife_2023.pdf"
 },
 {
   "id": "5",
@@ -37,6 +37,6 @@
   "authors": "Caleb J. Bashor, Andrew A. Horwitz, Sergio G. Peisajovich, Wendell A. Lim",
   "journal": "Annual Review of Biophysics",
   "year": "2010",
-  "pdf_file": "Bashor_AnnuRevBioPhys_2010.pdf"
+  "url": "/pdfs/Bashor_AnnuRevBioPhys_2010.pdf"
 }
 ]

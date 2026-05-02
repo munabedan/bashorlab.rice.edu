@@ -1,15 +1,18 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro'; // Import the hero component
-import About from '../components/About.astro';
-import Research from '../components/Research.astro';
-import Publications from '../components/Publications.astro';
-import Members from '../components/Members.astro';
-import Contact from '../components/Contact.astro';
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro"; // Import the hero component
+import About from "../components/About.astro";
+import Research from "../components/Research.astro";
+import Publications from "../components/Publications.astro";
+import Members from "../components/Members.astro";
+import Contact from "../components/Contact.astro";
+import Alumni from "../components/Alumni.astro";
 ---
 
 <Layout title="Home | Bashor Lab">
-  <Hero />
+  <section id="home">
+    <Hero />
+  </section>
 
   <section id="about">
     <About />
@@ -23,9 +26,12 @@ import Contact from '../components/Contact.astro';
     <Publications />
   </section>
   <section id="members">
-    <Members>
-  </section>
-  <section id="contact">
-    <Contact/>
+    <Members />
+    <section id="alumni">
+      <Alumni />
+    </section>
+    <section id="contact">
+      <Contact />
+    </section>
   </section>
 </Layout>
