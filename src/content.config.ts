@@ -13,4 +13,16 @@ const publications = defineCollection({
   }),
 });
 
-export const collections = { publications };
+
+const members = defineCollection({
+  loader: file("src/assets/members/data.json"),
+  schema: z.object({
+    id: z.string(),
+    name: z.string(),
+    occupation: z.string(),
+    distinction: z.string(),
+    avatar: z.string(),
+  }),
+});
+
+export const collections = { publications, members };

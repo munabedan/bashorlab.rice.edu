@@ -1,0 +1,23 @@
+[
+  {
+    "id": "zheng-diao",
+    "name": "Zheng Diao",
+    "occupation": "PhD Student - Systems, Synthetic, and Physical Biology",
+    "distinction": "B.S. Biochemistry, University of Minnesota",
+    "avatar": "/avatars/zheng.png"
+  },
+  {
+    "id": "alena-streletskaia",
+    "name": "Alena Streletskaia",
+    "occupation": "PhD Student - BioSciences",
+    "distinction": "B.S./M.S. Pharmaceutical Sciences, Lomonosov Moscow State University",
+    "avatar": "/avatars/alena.png"
+  },
+  {
+    "id": "matthew-lee",
+    "name": "Matthew Lee",
+    "occupation": "PhD Student - BioEngineering",
+    "distinction": "B.S. Materials Engineering, Johns Hopkins University",
+    "avatar": "/avatars/matt.png"
+  }
+]
