@@ -7,9 +7,9 @@ import bg_stars from "../assets/publications/Pubs_Background_Houston_BACKGROUND.
 import bg_city from "../assets/publications/Pubs_Background_Houston_FOREGROUND.png";
 import pdf_icon from "../assets/publications/PDF.png";
 
-/** 
- * No more import.meta.glob! 
- * Since the PDFs are in /public/pdfs/, we can reference them 
+/**
+ * No more import.meta.glob!
+ * Since the PDFs are in /public/pdfs/, we can reference them
  * directly by string using the filename from your collection.
  */
 ---
@@ -43,17 +43,16 @@ import pdf_icon from "../assets/publications/PDF.png";
              * Because these files are in 'public/pdfs/', the browser
              * can find them at the root path '/pdfs/'.
              */
-            
 
             return (
               <div class="flex flex-row items-start justify-between group gap-8">
                 <div class="text-white text-[10px] md:text-[14px] leading-[1.8] max-w-3xl">
                   <span class="text-gray-300">
-                    {pub.data.authors} ({pub.data.year})
+                    {pub.data.authors} ({pub.data.year}) ({pub.data.page})
                   </span>
                   <span class="block mt-2">
                     {pub.data.title}.
-                    <span class="text-white font-bold">{pub.data.journal}</span>.
+                    <span class="text-white font-bold">{pub.data.journal}</span>
                   </span>
                 </div>
 
@@ -77,6 +76,17 @@ import pdf_icon from "../assets/publications/PDF.png";
         }
       </div>
 
+      <!-- PubMed link -->
+      <div class="mt-16 text-center">
+        <a
+          href="https://pubmed.ncbi.nlm.nih.gov/?term=Bashor+C"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block px-6 py-3 bg-pink-600 hover:bg-pink-500 text-black font-bold rounded-md transform transition-transform hover:scale-105 active:scale-95"
+        >
+          Find more publications on PubMed
+        </a>
+      </div>
       <div class="h-64 w-full"></div>
     </div>
   </main>
