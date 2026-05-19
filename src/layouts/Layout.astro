@@ -1,5 +1,6 @@
 ---
 import Navbar from '../components/Navbar.astro';
+import { Font } from "astro:assets";
 import "../styles/global.css";
 interface Props {
 	title: string;
@@ -13,8 +14,10 @@ const { title } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+		<!-- <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">-->
 		<title>{title}</title>
+		<Font cssVariable="--press-start-2p" />
+		<Font cssVariable="--orange-kid" />
 	</head>
 	<body class="bg-black text-white selection:bg-white selection:text-black">
 		<Navbar /> <slot />
@@ -22,7 +25,7 @@ const { title } = Astro.props;
 </html>
 
 <style is:global>
-	html { font-family: 'Press Start 2P', cursive; }
+	/*html { font-family: 'Press Start 2P', cursive; }*/
 	img { image-rendering: pixelated; }
 	* { font-smooth: never; -webkit-font-smoothing: none; }
 </style>

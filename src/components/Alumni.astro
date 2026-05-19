@@ -11,7 +11,7 @@ const members = await getCollection("alumni");
     style={`background-image: url(${bgImage.src});`}
 >
     <h2
-        class="text-2xl md:text-4xl text-white mb-16 tracking-wider pixelated-text"
+        class="text-2xl md:text-4xl text-white mb-16 tracking-wider font-press-start-2p"
     >
         OUR ALUMNI
     </h2>
@@ -21,10 +21,10 @@ const members = await getCollection("alumni");
             members.map((member) => (
                 <div class="flex flex-col md:flex-row items-center justify-between p-6 md:p-8 gap-6">
                     <div class="flex-1 text-center md:text-left">
-                        <h3 class="text-lg md:text-xl text-white mb-4 leading-relaxed">
+                        <h3 class="text-lg md:text-xl text-white mb-4 leading-relaxed font-press-start-2p">
                             {member.data.name}
                         </h3>
-                        <p class="text-[1em] md:text-[1em] leading-relaxed max-w-md">
+                        <p class="text-2xl md:text-4xl   leading-relaxed max-w-md font-orange-kid">
                             {member.data.occupation}
                         </p>
                     </div>
@@ -40,7 +40,7 @@ const members = await getCollection("alumni");
                     </div>
 
                     <div class="flex-1 text-center md:text-right">
-                        <p class="text-[1em] md:text-[1em] leading-relaxed max-w-md mx-auto md:ml-auto md:mr-0">
+                        <p class="text-2xl md:text-4xl  leading-relaxed max-w-md mx-auto md:ml-auto md:mr-0 font-orange-kid">
                             {member.data.distinction}
                         </p>
                     </div>

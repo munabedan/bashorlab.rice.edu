@@ -34,7 +34,7 @@ const researchData = {
   <div class="relative z-20 w-full max-w-5xl mx-auto">
   <header class="w-full mb-16 md:mb-32 text-center">
     <!-- Font size reduced on mobile (text-xl), scaling adjusted for mobile -->
-    <h1 class="text-white text-xl md:text-4xl tracking-[0.1em] uppercase transform scale-y-110 md:scale-y-120">
+    <h1 class="text-white text-xl md:text-4xl tracking-[0.1em] uppercase transform scale-y-110 md:scale-y-120 font-press-start-2p">
       {researchData.mainTitle}
     </h1>
   </header>
@@ -44,12 +44,12 @@ const researchData = {
       {researchData.sections.map((item) => (
         <article class="text-center mx-auto max-w-4xl">
           <!-- Heading size and margin reduced for mobile -->
-          <h2 class="text-white text-lg md:text-3xl mb-8 md:mb-16 tracking-[0.1em] uppercase transform scale-y-100 origin-center">
+          <h2 class="text-white text-lg md:text-3xl mb-8 md:mb-16 tracking-[0.1em] transform scale-y-100 origin-center font-press-start-2p">
             {item.heading}
           </h2>
           
           <p 
-            class="text-white text-xs sm:text-sm md:text-[1.15rem] leading-loose md:leading-[3] text-center transform scale-y-105 md:scale-y-110 origin-center"
+            class="text-white text-lg sm:text-sm md:text-4xl  text-center transform scale-y-105 md:scale-y-110 origin-center font-orange-kid"
             set:html={item.content}
           />
         </article>
@@ -73,9 +73,5 @@ const researchData = {
     word-spacing: 0.1em; /* Reduced slightly for mobile readability */
   }
   
-  @media (min-width: 768px) {
-    article p {
-      word-spacing: 0.2em;
-    }
-  }
+ 
 </style>
