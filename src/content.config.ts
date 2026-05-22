@@ -10,7 +10,14 @@ const publications = defineCollection({
     journal: z.string(),
     year: z.string(),
     page: z.string(),
-    url: z.string(), 
+    url: z.string().optional(),       // Made optional in case a PDF isn't available
+    videoUrl: z.string().optional(),  // Added for your video links
+    features: z.array(                // Added for your nested feature lists/links
+      z.object({
+        text: z.string(),
+        url: z.string().optional()    // Optional link for the specific feature mention
+      })
+    ).optional()                      // Optional overall, as not all entries have features
   }),
 });
 

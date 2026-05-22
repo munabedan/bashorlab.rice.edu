@@ -1,25 +1,18 @@
 ---
 import { getCollection } from "astro:content";
-const pubs = await getCollection("publications");
-
+const rawPubs = await getCollection("publications");
+const pubs = rawPubs.sort((a, b) => Number(a.id) - Number(b.id));
 import bg_stars from "../assets/publications/Pubs_Background_Houston_BACKGROUND.png";
 import bg_city from "../assets/publications/Pubs_Background_Houston_FOREGROUND.png";
 import pdf_icon from "../assets/publications/PDF.png";
+// Ensure you import your video icon asset here
+import video_icon from "../assets/publications/VIDEO.png"; 
 ---
 
-<!-- 
-  The outer wrapper is now a standard relative section that flows with the page document.
-  We give it an ID so our Intersection Observer can track it.
--->
 <div
   id="pubs-section"
   class="relative w-full selection:bg-white selection:text-black bg-black pt-24 px-8 md:px-20 min-h-screen flex flex-col items-center overflow-hidden"
 >
-  <!-- FIXED/STICKY BACKGROUND LAYERS -->
-  <!-- 
-    Using `fixed` ensures they span the viewport when visible. 
-    `opacity-0 transition-opacity duration-700` handles the smooth fade.
-  -->
   <div
     class="pubs-bg fixed inset-0 z-0 opacity-0 transition-opacity duration-700 pointer-events-none h-[120vh]"
   >
@@ -40,7 +33,6 @@ import pdf_icon from "../assets/publications/PDF.png";
     />
   </div>
 
-  <!-- MAIN CONTENT LAYER: Standard block element, no inner scrolling tricks -->
   <div class="relative z-10 w-full max-w-4xl mt-12">
     <h1
       class="text-white text-xl min-[375px]:text-3xl sm:text-3xl md:text-4xl mb-12 md:mb-16 tracking-tighter [text-shadow:2px_2px_0_#000] md:[text-shadow:4px_4px_0_#000] text-center w-full uppercase font-press-start-2p"
@@ -51,38 +43,80 @@ import pdf_icon from "../assets/publications/PDF.png";
       {
         pubs.map((pub) => {
           return (
-            <div class="flex flex-row items-start justify-between group gap-8">
-              <div class="text-white text-2xl md:text-3xl leading-[1.8] max-w-3xl font-orange-kid">
-                <span class="text-gray-300">
-                  {pub.data.authors} ({pub.data.year}) ({pub.data.page})
-                </span>
-                <span class="block mt-2">
-                  {pub.data.title}.
-                  <span class="text-white font-bold">{pub.data.journal}</span>
-                </span>
+            <div class="flex flex-col space-y-3">
+              <div class="flex flex-row items-start justify-between group gap-8">
+                <div class="text-white text-2xl md:text-3xl leading-[1.4] max-w-3xl font-orange-kid">
+                  <span class="text-gray-300">
+                    {pub.data.authors} ({pub.data.year})
+                  </span>{" "}
+                  <span>
+                    {pub.data.title}.{" "}
+                    <span class="text-white font-bold">{pub.data.journal}</span>
+                    {pub.data.page && <span>. {pub.data.page}</span>}
+                  </span>
+                </div>
+
+                <div class="flex flex-col gap-3 flex-shrink-0 pt-1">
+                  {pub.data.url && (
+                    <a
+                      href={pub.data.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="block transform transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+                    >
+                      <img
+                        src={pdf_icon.src}
+                        alt="PDF"
+                        class="w-8 md:w-10 h-auto image-rendering:pixelated"
+                      />
+                    </a>
+                  )}
+                  
+                  {pub.data.videoUrl && (
+                    <a
+                      href={pub.data.videoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="block transform transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+                    >
+                      <img
+                        src={video_icon.src}
+                        alt="Video"
+                        class="w-8 md:w-10 h-auto image-rendering:pixelated"
+                      />
+                    </a>
+                  )}
+                </div>
               </div>
 
-              <div class="flex-shrink-0">
-                <a
-                  href={pub.data.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block transform transition-transform hover:scale-110 active:scale-95 cursor-pointer"
-                >
-                  <img
-                    src={pdf_icon.src}
-                    alt="PDF"
-                    class="w-8 md:w-10 h-auto image-rendering:pixelated"
-                  />
-                </a>
-              </div>
+              {pub.data.features && pub.data.features.length > 0 && (
+                <ul class="pl-4 md:pl-6 space-y-1 text-white text-xl md:text-2xl font-orange-kid list-none">
+                  {pub.data.features.map((feature) => (
+                    <li class="flex items-start gap-2 text-gray-300">
+                      {/* Using a retro diamond character or custom pixel bullet */}
+                      <span class="text-white select-none">◇</span>
+                      {feature.url ? (
+                        <a 
+                          href={feature.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          class="hover:text-white hover:underline transition-colors"
+                        >
+                          {feature.text}
+                        </a>
+                      ) : (
+                        <span>{feature.text}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           );
         })
       }
     </div>
 
-    <!-- PubMed link -->
     <div class="mt-16 text-center">
       <a
         href="https://pubmed.ncbi.nlm.nih.gov/?term=Bashor+C"
@@ -96,7 +130,6 @@ import pdf_icon from "../assets/publications/PDF.png";
   </div>
 </div>
 
-<!-- CLIENT-SIDE SCRIPT FOR THE FADE EFFECT -->
 <script>
   const section = document.getElementById("pubs-section");
   const backgrounds = document.querySelectorAll(".pubs-bg");
@@ -106,13 +139,11 @@ import pdf_icon from "../assets/publications/PDF.png";
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Component entered the viewport -> Fade backgrounds in
             backgrounds.forEach((bg) => {
               bg.classList.remove("opacity-0");
               bg.classList.add("opacity-100");
             });
           } else {
-            // Component left the viewport -> Fade backgrounds out
             backgrounds.forEach((bg) => {
               bg.classList.remove("opacity-100");
               bg.classList.add("opacity-0");
@@ -120,10 +151,7 @@ import pdf_icon from "../assets/publications/PDF.png";
           }
         });
       },
-      {
-        // Triggers as soon as even 1 pixel of the section enters or leaves the screen
-        threshold: 0,
-      },
+      { threshold: 0 }
     );
 
     observer.observe(section);
@@ -133,7 +161,8 @@ import pdf_icon from "../assets/publications/PDF.png";
 <style>
   div,
   span,
-  p {
+  p,
+  li {
     font-smooth: never;
     -webkit-font-smoothing: none;
     text-rendering: pixelated;
