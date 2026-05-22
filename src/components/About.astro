@@ -1,7 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import backgroundGif from "../assets/hero/background-blue.gif";
-
 interface Props {
     title?: string;
     description?: string;
@@ -12,7 +9,6 @@ const {
     description = "We use synthetic biology approaches to design, build, and test artificial regulatory programs in human cells. This not only provides insight into the design logic of natural regulation, but also allows us to predictively alter cellular phenotype to create powerful cell-based biotechnologies.",
 } = Astro.props;
 
-// Logic to split by full stops and clean up empty strings/whitespace
 const sentences = description
     .split('.')
     .map((s) => s.trim())
@@ -21,27 +17,15 @@ const sentences = description
 const heavyGlow = "text-white leading-tight md:leading-relaxed [text-shadow:0_0_5px_#94e2d5,0_0_10px_rgba(148,226,213,0.8)] md:[text-shadow:0_0_5px_#94e2d5,0_0_10px_#94e2d5,0_0_20px_rgba(148,226,213,0.8),0_0_40px_rgba(148,226,213,0.6),0_0_60px_rgba(148,226,213,0.4)]";
 ---
 
+<!-- Removed local background image element, component is now transparent over index.astro -->
 <div class="relative w-full min-h-[100svh] flex items-center justify-center p-6 md:p-12 overflow-hidden font-press-start-2p">
     
-    <!-- Background Container -->
-    <div class="absolute inset-0 z-0">
-        
-        
-        <Image 
-            src={backgroundGif} 
-            alt="" 
-            fetchpriority="high" 
-            class="w-full h-full object-cover [image-rendering:pixelated] opacity-40 md:opacity-50"
-        />
-    </div>
-
     <!-- Content -->
     <div class="relative z-20 w-full max-w-[1100px] text-center">
         <h2 class={`${heavyGlow} text-1xl sm:text-3xl md:text-4xl lg:text-4xl mb-8 md:mb-12 tracking-[2px] md:tracking-[4px]`}>
             {title}
         </h2>
         
-        <!-- Paragraph Container: adds vertical spacing between the split paragraphs -->
         <div class="flex flex-col space-y-6 md:space-y-10">
             {sentences.map((sentence) => (
                 <p class={`${heavyGlow} text-sm sm:text-base md:text-lg lg:text-2xl max-w-[1000px] mx-auto normal-case text-center`}>

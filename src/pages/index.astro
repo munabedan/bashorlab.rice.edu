@@ -6,21 +6,31 @@ import Research from "../components/Research.astro";
 import Publications from "../components/Publications.astro";
 import Members from "../components/Members.astro";
 import Contact from "../components/Contact.astro";
+
+// Import the background GIF at the page level
+import backgroundGif from "../assets/hero/background-blue.gif";
 ---
 
 <Layout title="Home | Bashor Lab">
-  <section id="home">
-    <Hero />
-  </section>
+  <!-- Shared Background Wrapper for Hero, About, and Research -->
+  <div 
+    class="relative w-full bg-cover bg-center bg-no-repeat bg-fixed"
+    style={`background-image: url(${backgroundGif.src});`}
+  >
+    <section id="home" class="relative z-10">
+      <Hero />
+    </section>
 
-  <section id="about">
-    <About />
-  </section>
+    <section id="about" class="relative z-10">
+      <About />
+    </section>
 
-  <section id="research">
-    <Research />
-  </section>
+    <section id="research" class="relative z-10">
+      <Research />
+    </section>
+  </div>
 
+  <!-- Other sections continue normally outside the GIF wrapper -->
   <section id="publications">
     <Publications />
   </section>
