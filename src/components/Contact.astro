@@ -32,50 +32,78 @@ const {
   <div
     class="relative z-10 flex flex-col md:flex-row items-center justify-center gap-8 max-w-5xl w-full mx-auto"
   >
-    <div
-      class="bg-orange-500 border-4 border-black px-8 py-6 shadow-[8px_8px_0px_rgba(0,0,0,1)] text-center w-full md:w-auto transform hover:-translate-y-1 transition-transform"
+    <button
+      id="contact-toggle-btn"
+      class="bg-orange-500 border-4 border-black px-8 py-6 shadow-[8px_8px_0px_rgba(0,0,0,1)] text-center w-full md:w-auto transform active:translate-y-1 active:shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all duration-200 cursor-pointer focus:outline-none"
     >
-      <h2 class="text-white text-2xl md:text-4xl font-press-start-2p">
+      <h2 class="text-white text-2xl md:text-4xl font-press-start-2p pointer-events-none">
         {title}
       </h2>
-    </div>
+    </button>
 
     <div
-      class="bg-[#4D4566]/90 border-4 border-black p-8 md:p-10 shadow-[8px_8px_0px_rgba(0,0,0,1)] w-full max-w-2xl text-xl md:text-4xl leading-relaxed text-white font-orange-kid"
+      id="contact-content-card"
+      class="bg-[#4D4566]/90 border-4 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] w-full max-w-2xl text-xl md:text-4xl leading-relaxed text-white font-orange-kid
+             opacity-0 max-h-0 p-0 overflow-hidden border-none shadow-none pointer-events-none
+             transition-all duration-500 ease-in-out"
     >
-      <p class="mb-6 text-gray-200">
-        Interested in joining our group? Get in touch at the addresses below!
-        You can also now keep tabs on our publications, activity, and general
-        scientific musings by visiting our Instagram page.
-      </p>
+      <div class="p-8 md:p-10">
+        <p class="mb-6 text-gray-200">
+          Interested in joining our group? Get in touch at the addresses below!
+          You can also now keep tabs on our publications, activity, and general
+          scientific musings by visiting our Instagram page.
+        </p>
 
-      <div class="space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-          <span class="text-orange-400 font-bold min-w-[80px]">Email:</span>
-          <a
-            href={`mailto:${email}`}
-            class="text-white hover:text-orange-300 break-all underline decoration-dotted"
+        <div class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span class="text-orange-400 font-bold min-w-[80px]">Email:</span>
+            <a
+              href={`mailto:${email}`}
+              class="text-white hover:text-orange-300 break-all underline decoration-dotted"
+            >
+              {email}
+            </a>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span class="text-orange-400 font-bold min-w-[80px]">Phone:</span>
+            <a href={`tel:${phone}`} class="text-white hover:text-orange-300">
+              {phone}
+            </a>
+          </div>
+
+          <div
+            class="flex flex-col sm:flex-row sm:items-start gap-2 pt-4 border-t border-dashed border-gray-500"
           >
-            {email}
-          </a>
-        </div>
-
-        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-          <span class="text-orange-400 font-bold min-w-[80px]">Phone:</span>
-          <a href={`tel:${phone}`} class="text-white hover:text-orange-300">
-            {phone}
-          </a>
-        </div>
-
-        <div
-          class="flex flex-col sm:flex-row sm:items-start gap-2 pt-4 border-t border-dashed border-gray-500"
-        >
-          <span class="text-orange-400 font-bold min-w-[80px]">Address:</span>
-          <span class="text-gray-300 leading-normal flex-1">
-            {address}
-          </span>
+            <span class="text-orange-400 font-bold min-w-[80px]">Address:</span>
+            <span class="text-gray-300 leading-normal flex-1">
+              {address}
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  const toggleBtn = document.getElementById('contact-toggle-btn');
+  const contentCard = document.getElementById('contact-content-card');
+
+  toggleBtn?.addEventListener('click', () => {
+    // Toggle Button's retro click effect state permanently if you want it to look "pressed"
+    toggleBtn.classList.toggle('bg-orange-600');
+    
+    // Toggle Content Card states (Animations handled smoothly via Tailwind transition classes)
+    contentCard?.classList.toggle('opacity-0');
+    contentCard?.classList.toggle('max-h-0');
+    contentCard?.classList.toggle('p-0');
+    contentCard?.classList.toggle('border-none');
+    contentCard?.classList.toggle('shadow-none');
+    contentCard?.classList.toggle('pointer-events-none');
+    
+    // Active visibility styles
+    contentCard?.classList.toggle('opacity-100');
+    contentCard?.classList.toggle('max-h-[1000px]'); // Safe large height for fluid transition
+  });
+</script>
