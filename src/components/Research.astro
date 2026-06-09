@@ -5,7 +5,7 @@ import { getEntry } from 'astro:content';
 const researchEntry = await getEntry('research', 'research');
 
 // Fallback to defaults if the data fails to load for any reason
-const mainTitle = researchEntry?.data.mainTitle ?? "OUR RESEARCH";
+const mainTitle = researchEntry?.data.mainTitle ?? "";
 const sections = researchEntry?.data.sections ?? [];
 ---
 
