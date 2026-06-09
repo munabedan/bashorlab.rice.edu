@@ -1,4 +1,4 @@
-name: Deploy Astro Artifact to Releases
+name: Build, Release, and Deploy Astro Site
 
 on:
   # Trigger the workflow every time you push to the `main` branch
@@ -7,41 +7,76 @@ on:
   # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
 
-# Updated permissions to allow creating releases
+# Permissions required for both GitHub Pages and GitHub Releases
 permissions:
-  contents: write # Crucial for creating a release and attaching files
+  contents: write   # Required to create releases and attach files
+  pages: write      # Required to deploy to GitHub Pages
+  id-token: write   # Required for secure OIDC authentication with Pages
 
 jobs:
-  build-and-release:
+  # --- JOB 1: BUILD THE ASTRO SITE ---
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v6
 
-      # Set up Node.js since we aren't using the bundled withastro/action anymore
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24 # Matches the node version from your template
-          cache: 'npm'     # Adjust to pnpm if you are using pnpm
+          node-version: 24
+          cache: 'npm' # Adjust to pnpm if you are using pnpm
 
       - name: Install dependencies
-        run: npm ci        # Swap to 'pnpm install' if using pnpm
+        run: npm ci # Swap to 'pnpm install' if using pnpm
 
       - name: Build your site
         run: npm run build # Swap to 'pnpm run build' if using pnpm
 
-      # Astro builds to the 'dist' directory by default. 
-      # This step compresses that folder into a zip file named after the commit SHA.
-      - name: Zip build artifact
+      # Upload the compiled 'dist' folder so the next jobs can use it
+      - name: Upload production build artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  # --- JOB 2: DEPLOY TO GITHUB PAGES ---
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # --- JOB 3: CREATE THE GITHUB RELEASE ---
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository (needed for git context/tagging)
+        uses: actions/checkout@v6
+
+      # Download the 'dist' folder that was uploaded in the build job
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages # upload-pages-artifact names it this by default
+          path: ./downloaded-artifact
+
+      # Extract the tarball created by upload-pages-artifact, then re-zip it for your release asset
+      - name: Prepare and Zip release artifact
         run: |
+          mkdir dist
+          tar -xf ./downloaded-artifact/artifact.tar -C ./dist
           cd dist
           zip -r ../astro-build-${{ github.sha }}.zip .
           cd ..
 
-      # Creates the release on GitHub and attaches the zip file
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: release-${{ github.sha }}
           name: Release ${{ github.sha }}
