@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v6
+        uses: actions/deploy-pages@v5
 
   # --- JOB 3: CREATE THE GITHUB RELEASE ---
   release:
