@@ -1,0 +1,50 @@
+name: Deploy Astro Artifact to Releases
+
+on:
+  # Trigger the workflow every time you push to the `main` branch
+  push:
+    branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab on GitHub.
+  workflow_dispatch:
+
+# Updated permissions to allow creating releases
+permissions:
+  contents: write # Crucial for creating a release and attaching files
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+
+      # Set up Node.js since we aren't using the bundled withastro/action anymore
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24 # Matches the node version from your template
+          cache: 'npm'     # Adjust to pnpm if you are using pnpm
+
+      - name: Install dependencies
+        run: npm ci        # Swap to 'pnpm install' if using pnpm
+
+      - name: Build your site
+        run: npm run build # Swap to 'pnpm run build' if using pnpm
+
+      # Astro builds to the 'dist' directory by default. 
+      # This step compresses that folder into a zip file named after the commit SHA.
+      - name: Zip build artifact
+        run: |
+          cd dist
+          zip -r ../astro-build-${{ github.sha }}.zip .
+          cd ..
+
+      # Creates the release on GitHub and attaches the zip file
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: release-${{ github.sha }}
+          name: Release ${{ github.sha }}
+          draft: false
+          prerelease: false
+          files: astro-build-${{ github.sha }}.zip
