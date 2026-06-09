@@ -5,8 +5,7 @@ import layer3 from "../assets/hero/lab_scene_layer_3.png";
 import layer4 from "../assets/hero/lab_scene_layer_4.png";
 ---
 
-<!-- Changed section background to transparent/none to let index.astro's GIF show through -->
-<section class="relative h-[300vh] bg-transparent" id="parallax-outer">
+<section class="relative bg-transparent" id="parallax-outer">
   <div class="sticky top-20 h-[130vh] w-full overflow-hidden">
     <!-- Parallax Scene -->
     <div class="absolute inset-0 w-full h-full" id="parallax-scene">
@@ -19,7 +18,7 @@ import layer4 from "../assets/hero/lab_scene_layer_4.png";
       <div class="parallax-layer absolute inset-0 z-30" data-speed="0.6">
         <img src={layer3.src} alt="" class="w-full h-full object-cover" />
       </div>
-      <div class="parallax-layer absolute inset-0 z-40" data-speed="0.9">
+      <div class="parallax-layer absolute inset-0 z-100" data-speed="0.9">
         <img src={layer4.src} alt="" class="w-full h-full object-cover" />
       </div>
     </div>
@@ -102,11 +101,6 @@ import layer4 from "../assets/hero/lab_scene_layer_4.png";
     will-change: transform;
     image-rendering: pixelated;
   }
-  .z-40 {
-  /* Starts fading at 40% down, completely transparent by 85% */
-  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 95%);
-  mask-image: linear-gradient(to bottom, black 40%, transparent 95%);
-}
 
   img {
     user-select: none;
