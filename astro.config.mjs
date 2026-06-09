@@ -5,12 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // 1. Set your custom GitHub Pages domain or github.io URL
-  site: 'https://munabedan.github.io',
+ 
 
-  // 2. Set the exact repository/subfolder name (must start and end with a slash)
-  base: '/bashorlab.rice.edu/',
-  
   vite: {
     plugins: [tailwindcss()]
   },

@@ -21,9 +21,25 @@ jobs:
       - name: Checkout your repository using git
         uses: actions/checkout@v6
 
-      # Uses the official Astro action to install dependencies and compile the site
-      - name: Install, build, and upload your site
-        uses: withastro/action@v6
+      # 1. Build specifically for GitHub Pages (Injecting BOTH site and base)
+      - name: Build for GitHub Pages
+        uses: withastro/action@v3
+        with:
+          node-version: 24
+          build-cmd: npm run build -- --site https://munabedan.github.io --base /bashorlab.rice.edu/
+
+      # 2. Build a clean version for your Release ZIP (No 'base' injection)
+      - name: Install dependencies for Release build
+        run: npm ci
+
+      - name: Build clean production site for Release
+        run: npm run build
+
+      - name: Upload clean build for Release Job
+        uses: actions/upload-artifact@v4
+        with:
+          name: clean-release-dist
+          path: dist
 
   # --- JOB 2: DEPLOY TO GITHUB PAGES ---
   deploy:
@@ -35,34 +51,31 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4
 
   # --- JOB 3: CREATE THE GITHUB RELEASE ---
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository (needed for git context/tagging)
+      - name: Checkout repository
         uses: actions/checkout@v6
 
-      # Downloads the tarball created natively by withastro/action
-      # The default artifact name for Pages deployments is "github-pages"
-      - name: Download build artifact
-        uses: actions/download-artifact@v6
+      # Download the CLEAN 'dist' folder built in step 2
+      - name: Download clean build artifact
+        uses: actions/download-artifact@v4
         with:
-          name: github-pages
-          path: ./downloaded-artifact
+          name: clean-release-dist
+          path: ./dist
 
-      # withastro/action packages the 'dist' directory directly into 'artifact.tar'
-      # We extract it, zip it up for standard use, and clean up.
-      - name: Prepare and Zip release artifact
+      # Zip the clean files directly
+      - name: Zip release artifact
         run: |
-          mkdir dist
-          tar -xf ./downloaded-artifact/artifact.tar -C ./dist
           cd dist
           zip -r ../astro-build-${{ github.sha }}.zip .
           cd ..
 
+      # Creates the release on GitHub
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
