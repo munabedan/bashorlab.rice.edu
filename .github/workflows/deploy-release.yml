@@ -23,7 +23,7 @@ jobs:
 
       # Uses the official Astro action to install dependencies and compile the site
       - name: Install, build, and upload your site
-        uses: withastro/action@v3
+        uses: withastro/action@v6
 
   # --- JOB 2: DEPLOY TO GITHUB PAGES ---
   deploy:
@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v6
 
   # --- JOB 3: CREATE THE GITHUB RELEASE ---
   release:
@@ -48,7 +48,7 @@ jobs:
       # Downloads the tarball created natively by withastro/action
       # The default artifact name for Pages deployments is "github-pages"
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: github-pages
           path: ./downloaded-artifact
@@ -64,7 +64,7 @@ jobs:
           cd ..
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v6
         with:
           tag_name: release-${{ github.sha }}
           name: Release ${{ github.sha }}
