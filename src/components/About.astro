@@ -17,11 +17,14 @@ const sentences = description
 const heavyGlow = "text-white leading-tight md:leading-relaxed [text-shadow:0_0_5px_#94e2d5,0_0_10px_rgba(148,226,213,0.8)] md:[text-shadow:0_0_5px_#94e2d5,0_0_10px_#94e2d5,0_0_20px_rgba(148,226,213,0.8),0_0_40px_rgba(148,226,213,0.6),0_0_60px_rgba(148,226,213,0.4)]";
 ---
 
-<!-- Removed local background image element, component is now transparent over index.astro -->
-<div class="relative w-full min-h-[80svh] flex items-center justify-center p-6 md:p-12 overflow-hidden font-press-start-2p">
-    
-    <!-- Content -->
-    <div class="relative z-20 w-full max-w-[1100px] text-center">
+<div 
+    id="about-section"
+    class="relative w-full min-h-[140svh] flex items-center justify-center p-6 md:p-12 overflow-hidden font-press-start-2p"
+>
+    <div 
+        id="fade-text" 
+        class="opacity-0 translate-y-4 transition-all duration-[600ms] cubic-bezier(0.25, 1, 0.5, 1) will-change-[opacity,transform] relative z-20 w-full max-w-[1100px] text-center"
+    >
         <h2 class={`${heavyGlow} text-1xl sm:text-3xl md:text-4xl lg:text-4xl mb-8 md:mb-12 tracking-[2px] md:tracking-[4px]`}>
             {title}
         </h2>
@@ -35,3 +38,42 @@ const heavyGlow = "text-white leading-tight md:leading-relaxed [text-shadow:0_0_
         </div>
     </div>
 </div>
+
+<script>
+  const section = document.getElementById("about-section");
+  const target = document.getElementById("fade-text");
+
+  if (section && target) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // entry.intersectionRatio tells us exactly how much of the section is visible
+          const visibleRatio = entry.intersectionRatio;
+
+          if (visibleRatio > 0.4) {
+            // Fully visible when a good chunk of the section is on screen
+            target.style.opacity = "1";
+            target.style.transform = "translateY(0px)";
+          } else if (visibleRatio > 0.1) {
+            // Slow, partial fade state as it enters/leaves
+            target.style.opacity = "0.4";
+            target.style.transform = "translateY(2px)";
+          } else {
+            // Completely hidden when mostly off screen
+            target.style.opacity = "0";
+            target.style.transform = "translateY(16px)";
+          }
+        });
+      },
+      {
+        // We look at the section container, but shrink the viewport bounding box 
+        // so it starts fading out *before* escaping the top/bottom of the screen.
+        rootMargin: "-10% 0px -10% 0px",
+        // This forces the observer to fire at multiple visibility intervals
+        threshold: [0, 0.1, 0.2, 0.4, 0.6, 0.8, 1.0]
+      }
+    );
+
+    observer.observe(section);
+  }
+</script>
