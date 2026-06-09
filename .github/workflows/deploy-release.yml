@@ -1,42 +1,54 @@
 name: Build, Release, and Deploy Astro Site
 
 on:
-  # Trigger the workflow every time you push to the `main` branch
   push:
     branches: [ main ]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
 
-# Permissions required for both GitHub Pages and GitHub Releases
 permissions:
-  contents: write   # Required to create releases and attach files
-  pages: write      # Required to deploy to GitHub Pages
-  id-token: write   # Required for secure OIDC authentication with Pages
+  contents: write   
+  pages: write      
+  id-token: write   
 
 jobs:
-  # --- JOB 1: BUILD THE ASTRO SITE ---
+  # --- JOB 1: BUILD BOTH VERSIONS OF THE SITE ---
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
+      - name: Checkout repository
         uses: actions/checkout@v6
 
-      # 1. Build specifically for GitHub Pages (Injecting BOTH site and base)
-      - name: Build for GitHub Pages
-        uses: withastro/action@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 24
-          build-cmd: npm run build -- --site https://munabedan.github.io --base /bashorlab.rice.edu/
+          cache: 'npm'
 
-      # 2. Build a clean version for your Release ZIP (No 'base' injection)
-      - name: Install dependencies for Release build
+      - name: Install dependencies
         run: npm ci
 
+      # 1. BUILD FOR GITHUB PAGES (Uses environment variables which Astro natively respects)
+      - name: Build for GitHub Pages
+        run: npx astro build
+        env:
+          ASTRO_SITE: 'https://munabedan.github.io'
+          ASTRO_BASE: '/bashorlab.rice.edu/'
+
+      # Upload the modified build artifact specifically for the Pages deploy step
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+      # 2. BUILD CLEAN VERSION FOR YOUR RELEASE ZIP (Resets base to root '/')
       - name: Build clean production site for Release
-        run: npm run build
+        run: npx astro build
+        env:
+          ASTRO_SITE: 'https://munabedan.github.io'
+          ASTRO_BASE: '/'
 
       - name: Upload clean build for Release Job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: clean-release-dist
           path: dist
@@ -51,7 +63,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
   # --- JOB 3: CREATE THE GITHUB RELEASE ---
   release:
@@ -61,9 +73,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      # Download the CLEAN 'dist' folder built in step 2
       - name: Download clean build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: clean-release-dist
           path: ./dist
@@ -75,7 +86,6 @@ jobs:
           zip -r ../astro-build-${{ github.sha }}.zip .
           cd ..
 
-      # Creates the release on GitHub
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
