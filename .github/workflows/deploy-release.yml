@@ -64,7 +64,7 @@ jobs:
           cd ..
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v6
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: release-${{ github.sha }}
           name: Release ${{ github.sha }}
