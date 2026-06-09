@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { file } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 
 const publications = defineCollection({
   loader: file("src/assets/content/publications.json"),
@@ -44,4 +44,42 @@ const alumni = defineCollection({
     avatar: z.string(),
   }),
 });
-export const collections = { publications, members,alumni };
+
+const about = defineCollection({
+  loader: glob({ pattern: 'about.json', base: "src/assets/content/" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+  }),
+});
+
+const research = defineCollection({
+  loader: glob({ 
+    pattern: 'research.json', 
+    base: './src/assets/content' 
+  }),
+  schema: z.object({
+    mainTitle: z.string(),
+    sections: z.array(
+      z.object({
+        heading: z.string(),
+        content: z.string(),
+      })
+    ),
+  }),
+});
+
+const contact = defineCollection({
+  loader: glob({ 
+    pattern: 'contact.json', 
+    base: './src/assets/content' 
+  }),
+  schema: z.object({
+    title: z.string(),
+    email: z.string().email(), 
+    phone: z.string(),
+    address: z.string(),
+  }),
+});
+
+export const collections = { publications, members, alumni, about, research, contact};
