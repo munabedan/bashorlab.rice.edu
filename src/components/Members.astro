@@ -7,9 +7,10 @@ const members = await getCollection("members");
 ---
 
 <div
-    class="min-h-[300svh] w-full  py-16 px-6 md:px-12 flex flex-col items-center justify-start bg-cover bg-center"
+    class="min-h-[300svh] w-full py-16 px-6 md:px-12 flex flex-col items-center justify-start bg-cover bg-center"
     style={`background-image: url(${bgImage.src});`}
 >
+    <div class="w-full h-[80vh] bg-transparent"></div>
     <h2
         class="text-2xl md:text-4xl text-white mb-16 tracking-wider font-press-start-2p"
     >
@@ -48,4 +49,5 @@ const members = await getCollection("members");
             ))
         }
     </div>
+    <div class="w-full h-[80vh] bg-transparent"></div>
 </div>
