@@ -28,13 +28,13 @@ const socialLinks = [
 ---
 
 <nav
-  class="sticky top-0 z-[100] border-b-4 border-zinc-900 bg-black px-4 py-6 md:py-2 md:px-10 font-press-start-2p"
+  class="sticky top-0 z-[100] border-b-4 border-zinc-900 bg-black px-4 py-4 md:py-2 md:px-10 font-press-start-2p"
 >
   <div class="mx-auto flex max-w-7xl items-center justify-between">
-    <div class="flex items-center gap-2 md:gap-3 overflow-hidden">
+    <div class="flex items-center gap-2 md:gap-3 overflow-hidden min-w-0">
       <h1
         id="typewriter"
-        class="text-[10px] sm:text-[14px] md:text-2xl lg:text-3xl text-white leading-none tracking-tight md:tracking-[0.1em]"
+        class="text-[10px] xs:text-xs sm:text-[14px] md:text-2xl lg:text-3xl text-white leading-none tracking-tight md:tracking-[0.1em]"
       >
       </h1>
       <div
@@ -44,7 +44,7 @@ const socialLinks = [
       </div>
     </div>
 
-    <div class="relative flex items-center gap-3 sm:gap-6 md:gap-10 shrink-0">
+    <div class="relative flex items-center gap-3 sm:gap-6 md:gap-10 shrink-0 z-[110]">
       <div class="hidden items-center gap-5 md:flex">
         {
           socialLinks.map((social) => (
@@ -62,29 +62,30 @@ const socialLinks = [
 
       <button
         id="menu-toggle"
-        class="relative z-50 transition-opacity active:opacity-50 transition-transform hover:-translate-y-1"
+        class="relative z-[120] transition-opacity active:opacity-50 transition-transform hover:-translate-y-1 focus:outline-none"
+        aria-label="Toggle Menu"
       >
         <img
           src={hamburgerIcon.src}
           alt="Menu"
-          class="w-10 sm:w-12 md:w-14 lg:w-14"
+          class="w-8 sm:w-10 md:w-14"
         />
       </button>
 
       <div
         id="mobile-menu"
-        class="hidden absolute  top-[150%] z-[100] w-60 sm:w-72 p-6 sm:p-8 shadow-2xl"
+        class="hidden absolute right-0 top-[140%] z-[110] w-64 sm:w-72 p-6 sm:p-8 shadow-2xl rounded-sm"
         style={`background-image: url(${dropdownBg.src}); background-size: 100% 100%; image-rendering: pixelated;`}
       >
         <ul
-          class="flex flex-col gap-5 sm:gap-6 text-center text-xs sm:text-base md:text-lg text-black font-medium"
+          class="flex flex-col gap-5 sm:gap-6 text-center text-xs sm:text-sm md:text-lg text-black font-medium"
         >
           {
             navLinks.map((link) => (
               <li>
                 <a
                   href={link.url}
-                  class="hover:underline decoration-2 md:decoration-4"
+                  class="hover:underline decoration-2 mobile-nav-link"
                 >
                   {link.name}
                 </a>
@@ -93,7 +94,7 @@ const socialLinks = [
           }
 
           <li
-            class="flex md:hidden items-center justify-center gap-4 pt-4 border-t border-black/10"
+            class="flex md:hidden items-center justify-center gap-5 pt-5 border-t border-black/20"
           >
             {
               socialLinks.map((social) => (
@@ -101,12 +102,12 @@ const socialLinks = [
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="transition-opacity hover:opacity-100"
+                  class="transition-transform active:scale-95"
                 >
                   <img
                     src={social.icon}
                     alt={social.name}
-                    class="w-6 h-6 opacity-80"
+                    class="w-6 h-6 object-contain"
                   />
                 </a>
               ))
@@ -133,15 +134,26 @@ const socialLinks = [
 
   const menuBtn = document.getElementById("menu-toggle");
   const menuDropdown = document.getElementById("mobile-menu");
+  const navLinks = document.querySelectorAll(".mobile-nav-link");
 
+  // Toggle dropdown display
   menuBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
     menuDropdown?.classList.toggle("hidden");
   });
 
-  document.addEventListener("click", (e) => {
-    if (!menuDropdown?.contains(e.target as Node)) {
+  // Close dropdown when a link is clicked (crucial for anchor tags on mobile)
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
       menuDropdown?.classList.add("hidden");
+    });
+  });
+
+  // Close dropdown clicking anywhere else on the screen
+  document.addEventListener("click", (e) => {
+    const target = e.target as Node;
+    if (menuDropdown && !menuDropdown.contains(target) && !menuBtn?.contains(target)) {
+      menuDropdown.classList.add("hidden");
     }
   });
 
@@ -153,22 +165,19 @@ const socialLinks = [
     animation: blink 0.8s step-end infinite;
   }
   @keyframes blink {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 
   #typewriter {
     white-space: nowrap;
   }
 
-  @media (max-width: 400px) {
+  /* Handle ultra-small devices gracefully without breaking layout */
+  @media (max-width: 440px) {
     #typewriter {
       white-space: normal;
+      word-break: break-word;
     }
   }
 

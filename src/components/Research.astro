@@ -32,7 +32,7 @@ const researchData = {
   <div class="relative z-20 w-full max-w-5xl mx-auto">
     <header class="w-full mb-16 md:mb-32 text-center">
       <h1
-        class="fade-target opacity-0 translate-y-8 text-white text-xl md:text-4xl tracking-[0.1em] uppercase transform scale-y-110 md:scale-y-120 font-press-start-2p transition-all duration-[2000ms] cubic-bezier(0.25, 1, 0.5, 1) will-change-[opacity,transform]"
+        class="pointer-events-none translate-y-8 text-white text-xl md:text-4xl tracking-[0.1em] uppercase transform scale-y-110 md:scale-y-120 font-press-start-2p transition-all duration-[2000ms] cubic-bezier(0.25, 1, 0.5, 1) will-change-[opacity,transform]"
       >
         {researchData.mainTitle}
       </h1>
@@ -41,8 +41,8 @@ const researchData = {
     <div class="flex flex-col gap-24 md:gap-40"> 
       {
         researchData.sections.map((item) => (
-          /* Changed class to "fade-target" so it shares the same observer script */
-          <article class="fade-target opacity-0 translate-y-8 text-center mx-auto max-w-4xl transition-all duration-[600ms] cubic-bezier(0.25, 1, 0.5, 1) will-change-[opacity,transform]">
+          /* Added invisible and pointer-events-none by default */
+          <article class="fade-target opacity-0 invisible pointer-events-none translate-y-8 text-center mx-auto max-w-4xl transition-all duration-[400ms] cubic-bezier(0.25, 1, 0.5, 1) will-change-[opacity,transform]">
             <h2 class="text-white text-lg md:text-3xl mb-4 md:mb-8 tracking-[0.1em] transform scale-y-100 origin-center font-press-start-2p">
               {item.heading}
             </h2>
@@ -71,7 +71,6 @@ const researchData = {
 </style>
 
 <script>
-  // Now tracks ALL elements with the "fade-target" class (Title + Articles)
   const fadeElements = document.querySelectorAll(".fade-target");
 
   if (fadeElements.length > 0) {
@@ -82,16 +81,22 @@ const researchData = {
           const target = entry.target as HTMLElement;
 
           if (ratio > 0.3) {
-            // Element is comfortably on screen -> Full opacity
+            // Element is comfortably on screen -> Full opacity & interactive
             target.style.opacity = "1";
+            target.style.visibility = "visible";
+            target.style.pointerEvents = "auto";
             target.style.transform = "translateY(0px)";
           } else if (ratio > 0.05) {
             // Element is passing through the fade boundaries -> Transition state
             target.style.opacity = "0.3";
+            target.style.visibility = "visible";
+            target.style.pointerEvents = "auto";
             target.style.transform = "translateY(4px)";
           } else {
-            // Element is out of view -> Hidden
+            // Element is out of view -> Hidden, un-rendered, and non-interactive
             target.style.opacity = "0";
+            target.style.visibility = "hidden";
+            target.style.pointerEvents = "none";
             target.style.transform = "translateY(32px)";
           }
         });
