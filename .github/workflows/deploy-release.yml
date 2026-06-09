@@ -43,9 +43,6 @@ jobs:
       # 2. BUILD CLEAN VERSION FOR YOUR RELEASE ZIP (Resets base to root '/')
       - name: Build clean production site for Release
         run: npx astro build
-        env:
-          ASTRO_SITE: 'https://munabedan.github.io'
-          ASTRO_BASE: '/'
 
       - name: Upload clean build for Release Job
         uses: actions/upload-artifact@v7
