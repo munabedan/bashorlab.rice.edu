@@ -32,7 +32,7 @@ jobs:
         run: npx astro build
         env:
           ASTRO_SITE: 'https://munabedan.github.io/bashorlab.rice.edu/'
-          ASTRO_BASE: '/bashorlab.rice.edu/'
+          
 
       # Upload the modified build artifact specifically for the Pages deploy step
       - name: Upload Pages artifact
