@@ -59,7 +59,7 @@ import video_icon from "../assets/publications/VIDEO.png";
                 <div class="flex flex-col gap-3 flex-shrink-0 pt-1">
                   {pub.data.url && (
                     <a
-                      href={pub.data.url}
+                      href={`${import.meta.env.BASE_URL}${pub.data.url}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       class="block transform transition-transform hover:scale-110 active:scale-95 cursor-pointer"
