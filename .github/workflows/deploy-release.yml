@@ -31,7 +31,7 @@ jobs:
       - name: Build for GitHub Pages
         run: npx astro build
         env:
-          run: npx astro build --site "https://munabedan.github.io" --base "/bashorlab.rice.edu"
+          run: npx astro build 
           
 
       # Upload the modified build artifact specifically for the Pages deploy step
