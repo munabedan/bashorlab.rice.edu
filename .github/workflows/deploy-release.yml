@@ -29,9 +29,7 @@ jobs:
 
       # 1. BUILD FOR GITHUB PAGES (Uses environment variables which Astro natively respects)
       - name: Build for GitHub Pages
-        run: npx astro build
-        env:
-          run: npx astro build --site "https://munabedan.github.io/bashorlab.rice.edu" --base "/bashorlab.rice.edu/"
+        run: npx astro build --site "https://munabedan.github.io/bashorlab.rice.edu" --base "/bashorlab.rice.edu/"
 
       # Upload the modified build artifact specifically for the Pages deploy step
       - name: Upload Pages artifact
