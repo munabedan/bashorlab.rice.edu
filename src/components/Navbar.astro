@@ -25,7 +25,7 @@ const navLinks = [
   { name: "Our Research", url: "#research" },
   { name: "Our Publications", url: "#publications" },
   { name: "Our Group", url: "#members" },
-  { name: "Our Alumni", url: `${import.meta.env.BASE_URL}/alumnipage` },
+  { name: "Our Alumni", url: `${import.meta.env.BASE_URL}/alumnipage`.replace(/\/+/g, '/') },
   { name: "Contact", url: "#contact" },
 ];
 

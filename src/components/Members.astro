@@ -56,7 +56,7 @@ const members = await getCollection("members");
                                 Crucial if application instances are served under distinct project sub-directories.
                             */}
                             <img
-                                src={`${import.meta.env.BASE_URL}${member.data.avatar}`}
+                                src={`${import.meta.env.BASE_URL}${member.data.avatar}`.replace(/\/+/g, '/')}
                                 alt={member.data.name}
                                 class="w-full h-full object-cover"
                             />

@@ -95,7 +95,7 @@ import video_icon from "../assets/publications/VIDEO.png";
                   */}
                   {pub.data.url && (
                     <a
-                      href={`${import.meta.env.BASE_URL}${pub.data.url}`}
+                      href={`${import.meta.env.BASE_URL}${pub.data.url}`.replace(/\/+/g, '/')}
                       target="_blank"
                       rel="noopener noreferrer"
                       class="block transform transition-transform hover:scale-110 active:scale-95 cursor-pointer"

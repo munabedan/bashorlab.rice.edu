@@ -55,7 +55,7 @@ const members = await getCollection("alumni");
                                is hosted at a root domain or a sub-path (e.g., GitHub Pages).
                             */}
                             <img
-                                src={`${import.meta.env.BASE_URL}${member.data.avatar}`}
+                                src={`${import.meta.env.BASE_URL}${member.data.avatar}`.replace(/\/+/g, '/')}
                                 alt={member.data.name}
                                 class="w-full h-full object-cover"
                             />
