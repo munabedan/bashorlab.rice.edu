@@ -1,11 +1,24 @@
 ---
+/**
+ * @file Navigation.astro
+ * @description Header navigation bar featuring a retro-gaming 8-bit aesthetic. 
+ * Includes an automated typewriter effect for the lab title, a responsive dropdown 
+ * menu driven by UI overlay click rules, and adaptive layout visibility breakpoints 
+ * for embedded project social shortcuts.
+ */
+
 import hamburgerIcon from "../assets/nav/hambuger_menu.png";
 import dropdownBg from "../assets/nav/dropdown_background.png";
 import instaIcon from "../assets/nav/insta_icon.png";
 import githubIcon from "../assets/nav/github_cat.png";
 import xIcon from "../assets/nav/x_logo.png";
 
-// Define your page and social links here
+/**
+ * Site Navigation Anchors:
+ * Array containing internal element anchors and absolute page routings.
+ * Dynamically prefixes base configurations via `import.meta.env.BASE_URL` 
+ * to remain decoupled from target subdirectory structures.
+ */
 const navLinks = [
   { name: "HOME", url: import.meta.env.BASE_URL},
   { name: "About Us", url: "#about" },
@@ -16,6 +29,10 @@ const navLinks = [
   { name: "Contact", url: "#contact" },
 ];
 
+/**
+ * External Social Media Portals:
+ * Maps assets and target paths out to the project's online profile destinations.
+ */
 const socialLinks = [
   {
     name: "IG",
@@ -31,6 +48,7 @@ const socialLinks = [
   class="sticky top-0 z-[100] border-b-4 border-zinc-900 bg-black px-4 py-4 md:py-2 md:px-10 font-press-start-2p"
 >
   <div class="mx-auto flex max-w-7xl items-center justify-between">
+    
     <div class="flex items-center gap-2 md:gap-3 overflow-hidden min-w-0">
       <h1
         id="typewriter"
@@ -45,6 +63,7 @@ const socialLinks = [
     </div>
 
     <div class="relative flex items-center gap-3 sm:gap-6 md:gap-10 shrink-0 z-[110]">
+      
       <div class="hidden items-center gap-5 md:flex">
         {
           socialLinks.map((social) => (
@@ -120,10 +139,15 @@ const socialLinks = [
 </nav>
 
 <script>
+  // Character Assembly Configurations
   const text = "WELCOME TO THE BASHOR LAB";
   const container = document.getElementById("typewriter");
   let charIndex = 0;
 
+  /**
+   * Typewriter Animation Framework:
+   * Progressively appends substrings to target text elements at fixed 80ms increments.
+   */
   function typeEffect() {
     if (container && charIndex < text.length) {
       container.textContent += text.charAt(charIndex);
@@ -132,24 +156,37 @@ const socialLinks = [
     }
   }
 
+  // Dropdown Element Selection Framework
   const menuBtn = document.getElementById("menu-toggle");
   const menuDropdown = document.getElementById("mobile-menu");
   const navLinks = document.querySelectorAll(".mobile-nav-link");
 
-  // Toggle dropdown display
+  /**
+   * Menu Toggle Handler:
+   * Controls drawer visibility states. `stopPropagation()` stops event pooling 
+   * from hitting global root body contexts, preventing immediate closure loops.
+   */
   menuBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
     menuDropdown?.classList.toggle("hidden");
   });
 
-  // Close dropdown when a link is clicked (crucial for anchor tags on mobile)
+  /**
+   * Drawer Content Link Selection Tracker:
+   * Forces a dropdown close event when a user selects internal relative anchors, 
+   * updating view positions without locking modal curtains over the screen viewport.
+   */
   navLinks.forEach(link => {
     link.addEventListener("click", () => {
       menuDropdown?.classList.add("hidden");
     });
   });
 
-  // Close dropdown clicking anywhere else on the screen
+  /**
+   * Outside Context Click Controller:
+   * Tracks clicks across the document context to automatically fold up open navigation drawers 
+   * if user clicks outside of the menu overlay boundaries.
+   */
   document.addEventListener("click", (e) => {
     const target = e.target as Node;
     if (menuDropdown && !menuDropdown.contains(target) && !menuBtn?.contains(target)) {
@@ -157,10 +194,12 @@ const socialLinks = [
     }
   });
 
+  // Launch text entry cycle processing upon completion of initial DOM structures
   window.addEventListener("DOMContentLoaded", typeEffect);
 </script>
 
 <style>
+  /* Intermittent blinking emulation mapping a hardware-like terminal line pointer */
   #cursor {
     animation: blink 0.8s step-end infinite;
   }
@@ -173,7 +212,7 @@ const socialLinks = [
     white-space: nowrap;
   }
 
-  /* Handle ultra-small devices gracefully without breaking layout */
+  /* Responsive Fallbacks: Permits string breaks on extreme small form-factors to preserve UI bounds */
   @media (max-width: 440px) {
     #typewriter {
       white-space: normal;
@@ -181,11 +220,13 @@ const socialLinks = [
     }
   }
 
+  /* Overrides basic image interpolation routines to retain pixel-art edge crispness */
   img {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
   }
 
+  /* Hardware acceleration hint forcing elements safely to distinct GPU compositing targets */
   nav {
     transform: translateZ(0);
     will-change: transform;

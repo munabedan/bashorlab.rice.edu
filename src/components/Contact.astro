@@ -1,10 +1,20 @@
 ---
+/**
+ * @file ContactSection.astro
+ * @description An interactive contact dashboard featuring a retro 8-bit aesthetic. 
+ * This component fetches default details from the 'contact' content collection, 
+ * renders a responsive pixel-art layout, dynamically tracks viewport enter/exit animations 
+ * via IntersectionObservers, and expands an actionable details card upon clicking a title button.
+ */
+
 import { Image } from "astro:assets";
 import contactBg from "../assets/contact/contact-background.gif";
 import { getEntry } from "astro:content";
 
+// Fetch default fallback data from local contact markdown/yaml source at build time
 const contactEntry = await getEntry("contact", "contact");
 
+// Destructure incoming props, providing defaults via fallback entry properties or empty strings
 const {
   title = contactEntry?.data.title ?? "",
   email = contactEntry?.data.email ?? "",
@@ -95,6 +105,7 @@ const {
 </div>
 
 <style>
+  /* Keyframes mimicking a smooth mechanical pop/slide from the left screen boundary */
   @keyframes slideInFromLeft {
     0% {
       opacity: 0;
@@ -106,15 +117,22 @@ const {
     }
   }
 
+  /* Utility animation driver utilizing a smooth decelerating cubic-bezier curve */
   .animate-slide-in {
     animation: slideInFromLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 </style>
 
 <script>
+  // Elements linked to card open/close actions and scroll entry transitions
   const toggleBtn = document.getElementById("contact-toggle-btn");
   const contentCard = document.getElementById("contact-content-card");
 
+  /**
+   * Toggle Button Entrance Observer:
+   * Triggers the `animate-slide-in` CSS slide-in animation whenever the contact 
+   * button enters 10% or more of the user's viewport, then unobserves to optimize performance.
+   */
   if (toggleBtn) {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -131,27 +149,39 @@ const {
     observer.observe(toggleBtn);
   }
 
+  /**
+   * Click Event Handler:
+   * Alternates classes to control layout dimension changes, tracking cross-device rendering profiles.
+   */
   toggleBtn?.addEventListener("click", () => {
+    // Shifts color shades on active state toggle
     toggleBtn.classList.toggle("bg-orange-600");
 
+    // Reveal container visibility and enable mouse/touch events
     contentCard?.classList.toggle("opacity-0");
     contentCard?.classList.toggle("pointer-events-none");
 
-    // Mobile vertical transition toggles
+    // Responsive Mobile Rules: Handles expansion vertically via max-height toggling
     contentCard?.classList.toggle("max-h-0");
     contentCard?.classList.toggle("opacity-100");
     contentCard?.classList.toggle("max-h-[1200px]");
 
-    // Desktop horizontal transition toggles
+    // Responsive Desktop Rules (md breakpoint): Handles expansion horizontally via max-width toggling
     contentCard?.classList.toggle("md:max-w-0");
     contentCard?.classList.toggle("md:max-w-[600px]"); 
   });
 </script>
 
 <script>
+  // Selection criteria targets for ambient backdrop fades
   const section = document.getElementById("contact-section");
   const backgrounds = document.querySelectorAll(".contact-bg");
 
+  /**
+   * Background Performance Observer:
+   * Manages global opacity hooks dynamically. When the wrapper section rolls completely out 
+   * of sight, asset elements are faded to 0 to minimize graphics compositing loads.
+   */
   if (section && backgrounds.length > 0) {
     const observer = new IntersectionObserver(
       (entries) => {

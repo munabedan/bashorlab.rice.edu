@@ -1,8 +1,22 @@
 ---
+/**
+ * @file GroupMembersList.astro
+ * @description Renders a highly stylized team or laboratory roster from a local content collection.
+ * Layout structures alternate symmetrically between mobile stack and horizontal alignments.
+ * To integrate with long parallax or immersive scroll experiences, this section forces 
+ * substantial structural vertical height (`min-h-[300svh]`) and includes massive 
+ * transparent buffer zones to highlight the dynamic animated GIF background.
+ */
+
 import { getCollection } from "astro:content";
 import bgImage from "../assets/members/animated-background.gif";
 
-// Fetch the members from the collection
+/**
+ * Data Fetching:
+ * Resolves local file directories mapped to the 'members' collection layer.
+ * Executing inside frontmatter blocks guarantees compilation strictly at site build time, 
+ * eliminating client-side data resolution penalties entirely.
+ */
 const members = await getCollection("members");
 ---
 
@@ -11,6 +25,7 @@ const members = await getCollection("members");
     style={`background-image: url(${bgImage.src});`}
 >
     <div class="w-full h-[80vh] bg-transparent"></div>
+    
     <h2
         class="text-2xl md:text-4xl text-white mb-16 tracking-wider font-press-start-2p"
     >
@@ -19,8 +34,12 @@ const members = await getCollection("members");
 
     <div class="w-full max-w-5xl flex flex-col gap-12">
         {
+            /* Loop through all items inside the configured members schema metadata.
+               Builds an individual, rows-based arrangement for every distinct record.
+            */
             members.map((member) => (
                 <div class="flex flex-col md:flex-row items-center justify-between p-6 md:p-8 gap-6">
+                    
                     <div class="flex-1 text-center md:text-center">
                         <h3 class="text-lg md:text-2xl text-white mb-4 leading-relaxed font-press-start-2p">
                             {member.data.name}
@@ -32,6 +51,10 @@ const members = await getCollection("members");
 
                     <div class="flex-shrink-0">
                         <div class="w-60 h-60 md:w-75 md:h-75 rounded-full overflow-hidden flex items-center justify-center ">
+                            {/* Path Interpolation:
+                                Safely appends base tracking parameters (`BASE_URL`) to paths.
+                                Crucial if application instances are served under distinct project sub-directories.
+                            */}
                             <img
                                 src={`${import.meta.env.BASE_URL}${member.data.avatar}`}
                                 alt={member.data.name}
@@ -49,5 +72,6 @@ const members = await getCollection("members");
             ))
         }
     </div>
+    
     <div class="w-full h-[80vh] bg-transparent"></div>
 </div>
